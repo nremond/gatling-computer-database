@@ -7,6 +7,7 @@ class FeederSimulation extends Simulation {
 
 	val computerFeeder = new com.excilys.ebi.gatling.core.feeder.Feeder {
 
+		import java.util.UUID
 		import org.joda.time.DateTime
 		import org.joda.time.format.DateTimeFormat
 		import org.apache.commons.math3.random.{ RandomData, RandomDataImpl }
@@ -15,15 +16,13 @@ class FeederSimulation extends Simulation {
 		private val dateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
 
 		def next: Map[String, String] = {
-			val uuid = scala.math.abs(java.util.UUID.randomUUID.getMostSignificantBits)
-
 			val introduceDate = new DateTime(randomData.nextInt(1960, 2000), randomData.nextInt(1, 12), 1, 0, 0, 0, 000)
 			val discontinuedDate = introduceDate.plusYears(randomData.nextInt(1, 10))
 
 			Map("company" -> "12", 
 				"introduced" -> dateTimeFormat.print(introduceDate), 
 				"discontinued" -> dateTimeFormat.print(discontinuedDate), 
-				"name" -> ("SuperComputer v_" + uuid))
+				"name" -> ("SuperComputer v_" + UUID.randomUUID))
 		}
 	}
 
@@ -42,7 +41,6 @@ class FeederSimulation extends Simulation {
 					http("Index page")
 						.get("/")
 						.check(
-							status.is(200),
 							css("head title").is("Computers database"),
 							currentLocation.is(urlBase + "/computers")
 						)
@@ -56,7 +54,6 @@ class FeederSimulation extends Simulation {
 						.param("discontinued", "${discontinued}")
 						.param("name", "${name}")
 						.check(
-							status.is(200),
 							css("div.alert-message strong").is("Done!")
 						)
 				)

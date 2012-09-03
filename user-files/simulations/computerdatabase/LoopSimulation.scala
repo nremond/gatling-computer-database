@@ -19,7 +19,6 @@ class LoopSimulation extends Simulation {
 					http("Index page")
 						.get("/")
 						.check(
-							status.is(200),
 							css("head title").is("Computers database"),
 							currentLocation.is(urlBase + "/computers")
 						)
@@ -34,7 +33,6 @@ class LoopSimulation extends Simulation {
 							http("Apple computers")
 								.get("/computers?f=ibm&p=${pageIndex}")
 								.check(
-									status.is(200),
 									regex("""(?s)<a href="([^"]+)">IBM System z</a>""").whatever.saveAs("ibmSystemZLocation")
 							)
 						)
@@ -50,7 +48,6 @@ class LoopSimulation extends Simulation {
 					http("IBM System z")
 						.get("${ibmSystemZLocation}")
 						.check(
-							status.is(200),
 							css("#name", "value").is("IBM System z")
 						)
 				)

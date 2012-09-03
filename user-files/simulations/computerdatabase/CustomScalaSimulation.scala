@@ -19,7 +19,6 @@ class CustomScalaSimulation extends Simulation {
 					http("Index page")
 						.get("/")
 						.check(
-							status.is(200),
 							css("head title").is("Computers database"),
 							currentLocation.is(urlBase + "/computers")
 						)
@@ -28,7 +27,6 @@ class CustomScalaSimulation extends Simulation {
 					http("Apple computers")
 						.get("/computers?f=apple")
 						.check(
-							status.is(200),
 							regex("""(?s)<a href="([^"]+)">Apple Lisa</a>""").find.saveAs("appleLisaLocation")
 						)
 				)
@@ -43,7 +41,6 @@ class CustomScalaSimulation extends Simulation {
 					http("Apple Lisa")
 						.get("${appleLisaLocation}")
 						.check(
-							status.is(200),
 							css("#name", "value").is("Apple Lisa")
 						)
 				)

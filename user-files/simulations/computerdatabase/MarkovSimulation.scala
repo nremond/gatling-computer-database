@@ -18,7 +18,6 @@ class MarkovSimulation extends Simulation {
 					http("Apple computers")
 						.get("/computers?f=apple")
 						.check(
-							status.is(200),
 							regex("""(?s)<a href="([^"]+)">Apple Lisa</a>""").find.saveAs("appleLisaLocation")
 						)
 				)
@@ -27,7 +26,6 @@ class MarkovSimulation extends Simulation {
 					http("Apple Lisa")
 						.get("${appleLisaLocation}")
 						.check(
-							status.is(200),
 							css("#name", "value").is("Apple Lisa")
 						)
 				)
@@ -37,7 +35,6 @@ class MarkovSimulation extends Simulation {
 					http("IBM computers")
 						.get("/computers?f=ibm")
 						.check(
-							status.is(200),
 							regex("""(?s)<a href="([^"]+)">IBM 305</a>""").find.saveAs("ibm305Location"),
 							regex("""(?s)<a href="([^"]+)">IBM 701</a>""").find.saveAs("ibm701Location")
 						)
@@ -48,7 +45,6 @@ class MarkovSimulation extends Simulation {
 								http("IBM 305")
 									.get("${ibm305Location}")
 									.check(
-										status.is(200),
 										css("#name", "value").is("IBM 305")
 									)
 							),
@@ -56,7 +52,6 @@ class MarkovSimulation extends Simulation {
 								http("IBM 701")
 									.get("${ibm701Location}")
 									.check(
-										status.is(200),
 										css("#name", "value").is("IBM 701")
 									)
 							)
@@ -69,7 +64,6 @@ class MarkovSimulation extends Simulation {
 					http("Index page")
 						.get("/")
 						.check(
-							status.is(200),
 							css("head title").is("Computers database"),
 							currentLocation.is(urlBase + "/computers")
 						)
