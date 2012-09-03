@@ -7,10 +7,10 @@ class MarkovSimulation extends Simulation {
 
 	def apply = {
 
-		val urlBase = "http://computer-database.herokuapp.com"
+		val baseURL = "http://computer-database.herokuapp.com"
 
 		val httpConf = httpConfig
-						.baseURL(urlBase)
+						.baseURL(baseURL)
 
 
 		val browseAppleLisa = chain
@@ -65,7 +65,7 @@ class MarkovSimulation extends Simulation {
 						.get("/")
 						.check(
 							css("head title").is("Computers database"),
-							currentLocation.is(urlBase + "/computers")
+							currentLocation.is(baseURL + "/computers")
 						)
 				)
 				.pauseExp(3)

@@ -29,10 +29,10 @@ class FeederSimulation extends Simulation {
 
 	def apply = {
 
-		val urlBase = "http://computer-database.herokuapp.com"
+		val baseURL = "http://computer-database.herokuapp.com"
 
 		val httpConf = httpConfig
-						.baseURL(urlBase)
+						.baseURL(baseURL)
 
 		val scn 
 			= scenario("Play with the Computer Database")
@@ -42,7 +42,7 @@ class FeederSimulation extends Simulation {
 						.get("/")
 						.check(
 							css("head title").is("Computers database"),
-							currentLocation.is(urlBase + "/computers")
+							currentLocation.is(baseURL + "/computers")
 						)
 				)
 
