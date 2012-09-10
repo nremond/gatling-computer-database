@@ -1,6 +1,5 @@
 package computerdatabase
 
-import java.lang.Integer
 import akka.util.duration._
 import com.excilys.ebi.gatling.core.Predef._
 import com.excilys.ebi.gatling.http.Predef._
@@ -29,7 +28,7 @@ class LoopSimulation extends Simulation {
 				.exec((session: Session) 
 						=> session.setAttribute("pageIndex", 0) )
 				.asLongAs((s:Session) => !s.isAttributeDefined("ibmSystemZLocation") 
-							&& s.getTypedAttribute[Integer]("pageIndex") < 3) {
+							&& s.getTypedAttribute[Int]("pageIndex") < 3) {
 						
 						pauseExp(3 seconds)
 						.exec(
@@ -40,7 +39,7 @@ class LoopSimulation extends Simulation {
 							)
 						)
 						.exec((session: Session) 
-							=> session.setAttribute("pageIndex", session.getTypedAttribute[Integer]("pageIndex") + 1) ) 
+							=> session.setAttribute("pageIndex", session.getTypedAttribute[Int]("pageIndex") + 1) ) 
 					}
 					
 				

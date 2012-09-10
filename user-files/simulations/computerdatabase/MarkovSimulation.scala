@@ -14,8 +14,8 @@ class MarkovSimulation extends Simulation {
 						.baseURL(baseURL)
 
 
-		val browseAppleLisa = emptyChain
-				.exec(
+		val browseAppleLisa = 
+				exec(
 					http("Apple computers")
 						.get("/computers?f=apple")
 						.check(
@@ -31,8 +31,8 @@ class MarkovSimulation extends Simulation {
 						)
 				)
 
-		val browseIbms = emptyChain
-				.exec(
+		val browseIbms = 
+				exec(
 					http("IBM computers")
 						.get("/computers?f=ibm")
 						.check(
