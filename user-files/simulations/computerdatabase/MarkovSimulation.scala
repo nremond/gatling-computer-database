@@ -1,5 +1,6 @@
 package computerdatabase
 
+import akka.util.duration._
 import com.excilys.ebi.gatling.core.Predef._
 import com.excilys.ebi.gatling.http.Predef._
 
@@ -13,7 +14,7 @@ class MarkovSimulation extends Simulation {
 						.baseURL(baseURL)
 
 
-		val browseAppleLisa = chain
+		val browseAppleLisa = emptyChain
 				.exec(
 					http("Apple computers")
 						.get("/computers?f=apple")
@@ -21,7 +22,7 @@ class MarkovSimulation extends Simulation {
 							regex("""(?s)<a href="([^"]+)">Apple Lisa</a>""").find.saveAs("appleLisaLocation")
 						)
 				)
-				.pauseExp(2)
+				.pauseExp(2 seconds)
 				.exec(
 					http("Apple Lisa")
 						.get("${appleLisaLocation}")
@@ -30,7 +31,7 @@ class MarkovSimulation extends Simulation {
 						)
 				)
 
-		val browseIbms = chain
+		val browseIbms = emptyChain
 				.exec(
 					http("IBM computers")
 						.get("/computers?f=ibm")
@@ -39,16 +40,16 @@ class MarkovSimulation extends Simulation {
 							regex("""(?s)<a href="([^"]+)">IBM 701</a>""").find.saveAs("ibm701Location")
 						)
 				)
-				.pauseExp(2)
+				.pauseExp(2 seconds)
 				.randomSwitch(
-						54 -> chain.exec(
+						54 -> exec(
 								http("IBM 305")
 									.get("${ibm305Location}")
 									.check(
 										css("#name", "value").is("IBM 305")
 									)
 							),
-						40 -> chain.exec(
+						40 -> exec(
 								http("IBM 701")
 									.get("${ibm701Location}")
 									.check(
@@ -68,7 +69,7 @@ class MarkovSimulation extends Simulation {
 							currentLocation.is(baseURL + "/computers")
 						)
 				)
-				.pauseExp(3)
+				.pauseExp(3 seconds)
 				.randomSwitch(
 					43 -> browseIbms,
 					31 -> browseAppleLisa

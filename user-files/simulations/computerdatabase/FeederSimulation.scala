@@ -1,5 +1,6 @@
 package computerdatabase
 
+import akka.util.duration._
 import com.excilys.ebi.gatling.core.Predef._
 import com.excilys.ebi.gatling.http.Predef._
 
@@ -14,6 +15,8 @@ class FeederSimulation extends Simulation {
 
 		private val randomData: RandomData = new RandomDataImpl
 		private val dateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
+
+		def hasNext = true
 
 		def next: Map[String, String] = {
 			val introduceDate = new DateTime(randomData.nextInt(1960, 2000), randomData.nextInt(1, 12), 1, 0, 0, 0, 000)
@@ -46,6 +49,7 @@ class FeederSimulation extends Simulation {
 						)
 				)
 
+				.pauseExp(3 seconds)
 				.exec(
 					http("Register a computer")
 						.post("/computers")

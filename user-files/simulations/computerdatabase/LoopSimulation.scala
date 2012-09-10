@@ -1,5 +1,7 @@
 package computerdatabase
 
+import java.lang.Integer
+import akka.util.duration._
 import com.excilys.ebi.gatling.core.Predef._
 import com.excilys.ebi.gatling.http.Predef._
 
@@ -26,9 +28,10 @@ class LoopSimulation extends Simulation {
 				
 				.exec((session: Session) 
 						=> session.setAttribute("pageIndex", 0) )
-				.loop(
-					chain
-						.pauseExp(2)
+				.asLongAs((s:Session) => !s.isAttributeDefined("ibmSystemZLocation") 
+							&& s.getTypedAttribute[Integer]("pageIndex") < 3) {
+						
+						pauseExp(3 seconds)
 						.exec(
 							http("Apple computers")
 								.get("/computers?f=ibm&p=${pageIndex}")
@@ -38,12 +41,11 @@ class LoopSimulation extends Simulation {
 						)
 						.exec((session: Session) 
 							=> session.setAttribute("pageIndex", session.getTypedAttribute[Integer]("pageIndex") + 1) ) 
-					)
-					.asLongAs((s:Session) => !s.isAttributeDefined("ibmSystemZLocation") && 
-											 s.getTypedAttribute[Integer]("pageIndex") < 3)
+					}
+					
 				
 
-				.pauseExp(2)
+				.pauseExp(3 seconds)
 				.exec(
 					http("IBM System z")
 						.get("${ibmSystemZLocation}")
