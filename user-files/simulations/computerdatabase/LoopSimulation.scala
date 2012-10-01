@@ -3,6 +3,7 @@ package computerdatabase
 import akka.util.duration._
 import com.excilys.ebi.gatling.core.Predef._
 import com.excilys.ebi.gatling.http.Predef._
+import bootstrap._
 
 class LoopSimulation extends Simulation {
 
