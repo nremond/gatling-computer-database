@@ -6,7 +6,7 @@ import io.gatling.http.Predef._
 
 class CustomScalaSimulation extends Simulation {
 
-  val baseURL = "computer-database.heroku.com"
+  val baseURL = "computer-database.herokuapp.com"
 
   val httpConf = http
           .baseURL(baseURL)
