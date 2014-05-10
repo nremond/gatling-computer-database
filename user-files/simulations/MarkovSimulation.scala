@@ -3,12 +3,10 @@ package computerdatabase
 import scala.concurrent.duration._
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import bootstrap._
-import assertions._
 
 class MarkovSimulation extends Simulation {
 
-  val baseURL = "http://localhost:9000"
+  val baseURL = "computer-database.heroku.com"
 
   val httpConf = http
           .baseURL(baseURL)
@@ -22,7 +20,7 @@ class MarkovSimulation extends Simulation {
             regex("""(?s)<a href="([^"]+)">Apple Lisa</a>""").find.saveAs("appleLisaLocation")
           )
       )
-      .pauseExp(2 seconds)
+      .pause(2 seconds)
       .exec(
         http("Apple Lisa")
           .get("${appleLisaLocation}")
@@ -40,16 +38,16 @@ class MarkovSimulation extends Simulation {
             regex("""(?s)<a href="([^"]+)">IBM 701</a>""").find.saveAs("ibm701Location")
           )
       )
-      .pauseExp(2 seconds)
+      .pause(2 seconds)
       .randomSwitch(
-          54 -> exec(
+          54d -> exec(
               http("IBM 305")
                 .get("${ibm305Location}")
                 .check(
                   css("#name", "value").is("IBM 305")
                 )
             ),
-          40 -> exec(
+          40d -> exec(
               http("IBM 701")
                 .get("${ibm701Location}")
                 .check(
@@ -69,11 +67,11 @@ class MarkovSimulation extends Simulation {
             currentLocation.is(baseURL + "/computers")
           )
       )
-      .pauseExp(3 seconds)
+      .pause(3 seconds)
       .randomSwitch(
-        43 -> browseIbms,
-        31 -> browseAppleLisa
+        43d -> browseIbms,
+        31d -> browseAppleLisa
       )
 
-  setUp(scn.inject(ramp(100 users) over (30 seconds))).protocols(httpConf)      
+  setUp(scn.inject(rampUsers(100) over (30 seconds))).protocols(httpConf)      
 }

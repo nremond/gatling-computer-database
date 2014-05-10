@@ -48,7 +48,7 @@ class FeederSimulation extends Simulation {
           )
       )
 
-      .pauseExp(3 seconds)
+      .pause(3 seconds)
       .exec(
         http("Register a computer")
           .post("/computers")
@@ -61,5 +61,5 @@ class FeederSimulation extends Simulation {
           )
       )
 
-  setUp(scn.inject(ramp(100 users) over (30 seconds))).protocols(httpConf)      
+  setUp(scn.inject(rampUsers(100) over (30 seconds))).protocols(httpConf)      
 }

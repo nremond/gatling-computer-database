@@ -3,12 +3,10 @@ package computerdatabase
 import scala.concurrent.duration._
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import bootstrap._
-import assertions._
 
 class LoopSimulation extends Simulation {
 
-  val baseURL = "http://localhost:9000"
+  val baseURL = "computer-database.heroku.com"
 
   val httpConf = http
           .baseURL(baseURL)
@@ -34,7 +32,7 @@ class LoopSimulation extends Simulation {
             http("IBM computers")
               .get("/computers?f=ibm&p=${pageIndex}")
               .check(
-                regex("""(?s)<a href="([^"]+)">IBM System i</a>""").whatever.saveAs("ibmSystemILocation")
+                regex("""(?s)<a href="([^"]+)">IBM System i</a>""").dontValidate.saveAs("ibmSystemILocation")
             )
           )
           .exec((session: Session) 
@@ -43,7 +41,7 @@ class LoopSimulation extends Simulation {
         
       
 
-      .pauseExp(1 seconds)
+      .pause(1 seconds)
       .exec(
         http("IBM System i")
           .get("${ibmSystemILocation}")
@@ -53,6 +51,6 @@ class LoopSimulation extends Simulation {
       )
 
 
-  setUp(scn.inject(ramp(100 users) over (30 seconds))).protocols(httpConf)      
+  setUp(scn.inject(rampUsers(100) over (30 seconds))).protocols(httpConf)      
   
 }

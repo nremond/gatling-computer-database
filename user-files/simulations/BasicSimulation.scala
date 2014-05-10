@@ -6,7 +6,7 @@ import io.gatling.http.Predef._
 
 class BasicSimulation extends Simulation {
 
-  val baseURL = "http://localhost:9000"
+  val baseURL = "computer-database.heroku.com"
 
   val httpConf = http
           .baseURL(baseURL)
@@ -36,5 +36,5 @@ class BasicSimulation extends Simulation {
           )
       )
 
-  setUp(scn.inject(ramp(100 users) over (30 seconds))).protocols(httpConf)      
+  setUp(scn.inject(rampUsers(100) over (30 seconds))).protocols(httpConf)      
 }

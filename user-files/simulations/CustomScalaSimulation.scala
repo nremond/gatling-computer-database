@@ -6,7 +6,7 @@ import io.gatling.http.Predef._
 
 class CustomScalaSimulation extends Simulation {
 
-  val baseURL = "http://localhost:9000"
+  val baseURL = "computer-database.heroku.com"
 
   val httpConf = http
           .baseURL(baseURL)
@@ -43,5 +43,5 @@ class CustomScalaSimulation extends Simulation {
           )
       )
 
-  setUp(scn.inject(ramp(5 users) over (5 seconds))).protocols(httpConf)
+  setUp(scn.inject(rampUsers(5) over (5 seconds))).protocols(httpConf)
 }
