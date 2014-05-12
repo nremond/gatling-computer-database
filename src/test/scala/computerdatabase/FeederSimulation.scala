@@ -31,7 +31,7 @@ class FeederSimulation extends Simulation {
     }
   }
 
-  val baseURL = "http://computer-database.herokuappapp.com"
+  val baseURL = "http://computer-database.herokuapp.com"
 
   val httpConf = http
           .baseURL(baseURL)

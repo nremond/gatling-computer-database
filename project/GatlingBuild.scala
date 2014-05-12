@@ -13,6 +13,7 @@ object GatlingBuild extends Build {
 	val root = Project("sbt-test", file("."))
 			.settings(gatlingSettings: _*)
 			.configs(Gatling)
+			.settings(scalacOptions := Seq("-deprecation", "-feature", "-unchecked"))
 			.settings(organization := "io.nremond.gatling-computer-database")
 			.settings(libraryDependencies ++= libs)
 			.settings(resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots")
